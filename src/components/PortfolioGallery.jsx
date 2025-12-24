@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { projects as allProjects } from '../assets/assets';
+import { useImagePreview } from '../hooks/useImagePreview';
 
 const BATCH_SIZE = 12;
 
@@ -7,6 +8,7 @@ export default function PortfolioGallery() {
   const [typeFilter, setTypeFilter] = useState(null);
   const [spaceFilter, setSpaceFilter] = useState(null);
   const [styleFilter, setStyleFilter] = useState(null);
+  const { openPreview } = useImagePreview();
 
   const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
   const sentinelRef = useRef(null);
@@ -79,12 +81,16 @@ export default function PortfolioGallery() {
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
         {visible.map(p => (
-          <figure key={p.id} className="overflow-hidden rounded shadow">
+          <figure key={p.id} className="relative overflow-hidden rounded shadow cursor-pointer group" onClick={() => openPreview(p.image)}>
             <img src={p.image} alt={p.title} loading="lazy" className="w-full h-48 object-cover" />
-            <figcaption className="p-2 text-sm">
-              <div className="font-semibold">{p.title}</div>
-              <div className="text-xs text-gray-500">{p.category} • {p.subCategory.replace('-', ' ')} • {p.style}</div>
-            </figcaption>
+            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
+              <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center gap-2">
+                <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5z" />
+                </svg>
+                <span className="text-white text-sm font-light tracking-wide">View</span>
+              </div>
+            </div>
           </figure>
         ))}
       </div>
