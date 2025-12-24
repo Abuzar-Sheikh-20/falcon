@@ -1,0 +1,90 @@
+import React, { useState } from "react";
+import { assets } from "../assets/assets";
+import { NavLink, Link } from "react-router-dom";
+
+const Navbar = () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className="flex items-center justify-between py-5 font-medium">
+      <Link to={"/"}>
+        <p className="text-2xl font-light tracking-widest text-gray-800">FALCON</p>
+      </Link>
+
+      <ul className="hidden sm:flex gap-8 text-sm text-gray-700">
+        <NavLink to="/" className="flex flex-col items-center gap-1 hover:text-gray-950 transition duration-300">
+          <p>Home</p>
+          <hr className="w-3/4 border-none h-[1.5px] bg-gray-700 hidden" />
+        </NavLink>
+
+        <NavLink to="/collection" className="flex flex-col items-center gap-1 hover:text-gray-950 transition duration-300">
+          <p>Projects</p>
+          <hr className="w-3/4 border-none h-[1.5px] bg-gray-700 hidden" />
+        </NavLink>
+
+        <NavLink to="/about" className="flex flex-col items-center gap-1 hover:text-gray-950 transition duration-300">
+          <p>About</p>
+          <hr className="w-3/4 border-none h-[1.5px] bg-gray-700 hidden" />
+        </NavLink>
+
+        <NavLink to="/contact" className="flex flex-col items-center gap-1 hover:text-gray-950 transition duration-300">
+          <p>Contact</p>
+          <hr className="w-3/4 border-none h-[1.5px] bg-gray-700 hidden" />
+        </NavLink>
+      </ul>
+
+      <img
+        onClick={() => setVisible(true)}
+        src={assets.menu_icon}
+        className="w-5 cursor-pointer sm:hidden"
+        alt=""
+      />
+
+      <div
+        className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${
+          visible ? "w-full" : "w-0"
+        }`}
+      >
+        <div className="flex flex-col text-gray-600">
+          <div
+            onClick={() => setVisible(false)}
+            className="flex items-center cursor-pointer gap-4 p-3"
+          >
+            <img className="h-4 rotate-180" src={assets.dropdown_icon} alt="" />
+            <p>Back</p>
+          </div>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="text-sm py-2 pl-6 border"
+            to={"/"}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="text-sm py-2 pl-6 "
+            to={"/collection"}
+          >
+            Collection
+          </NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="text-sm py-2 pl-6 border"
+            to={"/about"}
+          >
+            About
+          </NavLink>
+          <NavLink
+            onClick={() => setVisible(false)}
+            className="text-sm py-2 pl-6 border"
+            to={"/contact"}
+          >
+            Contact
+          </NavLink>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Navbar;
